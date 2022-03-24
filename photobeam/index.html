@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
-    <head></head>
+    <head>
+      
+   </head>
     <body style="margin-left:150px; margin-right: 150px;">
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -17,14 +19,18 @@
         <script type="text/javascript" src="sdk/apigClient.js"></script>
         <script type="text/javascript" src="main.js"></script>
 
-        <form class="example" id="form-upload">
-            <input type="file" id="input-file" multiple size="50" >
-            <button type="button" onclick="upload(event)" name="btn-image" style="width:300px;">Upload</button>
+        <h1> Album Photo</h1>
+        <h3>You can add custom labeles before uploading the image</h3>
+
+        <input id="cutsomLabels" type="text" class="form" style="margin: 5px;" placeholder="Add custom labels" >
+        <form class="example" id="form-upload" >
+            <input type="file" id="input-file" style="margin: 5px;" multiple size="50" >
+            <button type="button" onclick="upload(event)" name="btn-image" style="width:300px; margin: 5px;">Upload</button>
         </form>
 
         <form class="form">
-            <input id="search" type="text" class="input" placeholder="search..."/>
-            <button type="button" id="submitsearch" onclick="search(event)">search</button>
+            <input id="search"  type="text" style="margin: 5px;" class="input" placeholder="search..."/>
+            <button type="button" id="submitsearch" style="margin: 5px;" onclick="search(event)">search</button>
         </form>
 
         <script src="main.js"></script>
