@@ -36,7 +36,7 @@ function upload(e) {
       item: file.name,
       bucket: 'photosbucket02',
       'Content-Type': file.type,
-      'x-amz-meta-customLabels': "",
+      'x-amz-meta-customLabels': cutsomLabels.value,
     };
 
     console.log(params)
