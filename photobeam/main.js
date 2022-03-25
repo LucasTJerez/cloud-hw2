@@ -2,21 +2,32 @@
 var name = '';
 var encoded = null;
 var fileExt = null;
-var SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
-const synth = window.speechSynthesis;
-const recognition = new SpeechRecognition();
-const icon = document.querySelector('i.fa.fa-microphone');
-
-function httpPost(theUrl, body)
-{
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "POST", theUrl, false ); // false for synchronous request
-    xmlHttp.send( null );
-    return xmlHttp.responseText;
-}
-
 
 function search(e) {
+  var apigClient = apigClientFactory.newClient();
+  var params = {
+    'q': document.getElementById("input-search").value
+  };
+  apigClient.searchGet(params, {}, {}).then(function (result) {
+    console.log(result)
+
+    var div = document.getElementById("images")
+    div.innerHTML = "";
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", "https://photosbucket02.s3.amazonaws.com/tmp.jpeg", true);
+    xhr.send(null)
+
+    xhr.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+         // Typical action to be performed when the document is ready:
+         console.log(xhr.responseText);
+         div.innerHTML += '<img src="data:image/jpeg;base64,' + xhr.responseText + 
+                    '" style="width:25%">';
+      }
+    };
+    
+  })
   var file = document.getElementById("search")
   console.log(file)
 
@@ -36,7 +47,7 @@ function upload(e) {
       item: file.name,
       bucket: 'photosbucket02',
       'Content-Type': file.type,
-      'x-amz-meta-customLabels': cutsomLabels.value,
+      'x-amz-meta-customLabels': "",
     };
 
     console.log(params)
