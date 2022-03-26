@@ -22,7 +22,7 @@ apigClientFactory.newClient = function (config) {
             secretKey: '',
             sessionToken: '',
             region: '',
-            apiKey: undefined,
+            apiKey: "uxXUdLcyhk80IFdUTwzoLUnxP1TOtlV4G1vFq446",
             defaultContentType: 'application/json',
             defaultAcceptType: 'application/json'
         };

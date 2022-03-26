@@ -3,29 +3,69 @@ var name = '';
 var encoded = null;
 var fileExt = null;
 
+function runSpeechRecognition() {
+  // get output div reference
+  var output = document.getElementById("output");
+  // get action element reference
+  var action = document.getElementById("action");
+      // new speech recognition object
+      var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+      var recognition = new SpeechRecognition();
+  
+      // This runs when the speech recognition service starts
+      recognition.onstart = function() {
+          action.innerHTML = "<small>listening, please speak...</small>";
+      };
+      
+      recognition.onspeechend = function() {
+          action.innerHTML = "<small>stopped listening, hope you are done...</small>";
+          recognition.stop();
+      }
+    
+      // This runs when the speech recognition service returns result
+      recognition.onresult = function(event) {
+          var transcript = event.results[0][0].transcript;
+          var confidence = event.results[0][0].confidence;
+          searchVoice(transcript)
+      };
+    
+       // start recognition
+       recognition.start();
+}
+
+function searchVoice(transcript) {
+  document.getElementById("input-search").value = transcript
+  search(null)
+}
+
 function search(e) {
   var apigClient = apigClientFactory.newClient();
   var params = {
     'q': document.getElementById("input-search").value
   };
   apigClient.searchGet(params, {}, {}).then(function (result) {
-    console.log(result)
-
+    console.log(result.data.body.photos)
     var div = document.getElementById("images")
     div.innerHTML = "";
 
-    let xhr = new XMLHttpRequest();
-    xhr.open("GET", "https://photosbucket02.s3.amazonaws.com/tmp.jpeg", true);
-    xhr.send(null)
+    for (let i = 0; i < result.data.body.photos.length; i++) {
+      photo = result.data.body.photos[i]
+    
 
-    xhr.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-         // Typical action to be performed when the document is ready:
-         console.log(xhr.responseText);
-         div.innerHTML += '<img src="data:image/jpeg;base64,' + xhr.responseText + 
-                    '" style="width:25%">';
-      }
-    };
+      
+
+      let xhr = new XMLHttpRequest();
+      xhr.open("GET", photo, true);
+      xhr.send(null)
+
+      xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          // Typical action to be performed when the document is ready:
+          div.innerHTML += '<img src="data:image/jpeg;base64,' + xhr.responseText + 
+                      '" style="width:25%">';
+        }
+      };
+    }
     
   })
   var file = document.getElementById("search")
@@ -47,7 +87,7 @@ function upload(e) {
       item: file.name,
       bucket: 'photosbucket02',
       'Content-Type': file.type,
-      'x-amz-meta-customLabels': "",
+      'x-amz-meta-customLabels': cutsomLabels.value,
     };
 
     console.log(params)

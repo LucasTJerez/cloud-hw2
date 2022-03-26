@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-      
+        
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
    </head>
     <body style="margin-left:150px; margin-right: 150px;">
 
@@ -28,11 +30,18 @@
             <button type="button" onclick="upload(event)" name="btn-image" style="width:300px; margin: 5px;">Upload</button>
         </form>
 
-        <form class="form">
-            <input id="search"  type="text" style="margin: 5px;" class="input" placeholder="search..."/>
-            <button type="button" id="submitsearch" style="margin: 5px;" onclick="search(event)">search</button>
+        <p><button type="button" onclick="runSpeechRecognition()">Speech to Text<i class="material-icons" style="font-size:36px">mic</i></button> &nbsp; <span id="action"></span></p>
+        <div id="output" ></div>
+
+        <form>  
+            <input type="text" placeholder="Search by keyword" id="input-search">
+            <button type="button" onclick="search(event)" >Search</button>
         </form>
 
+        <div id="images">
+           
+        </div>
+        <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
         <script src="main.js"></script>
     </body>
 </html>
